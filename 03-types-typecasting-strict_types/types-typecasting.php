@@ -16,6 +16,7 @@ var_dump($n = null);                // Тип данных null означает
 echo '<br><br>';
 
 function sum($x, $y, $z) {          // PHP умеет жонглировать типами
+
     var_dump($x, $y, $z);           // В данном случае суммирует int (2), string (3.5) и bool (1)
     echo '<br>';
     return $x + $y + $z;
