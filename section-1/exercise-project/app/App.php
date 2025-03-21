@@ -7,7 +7,7 @@ function getTransactionFiles(string $dirPath): array    // Директория 
 {                                                       // Функцию можно использовать, даже если директория сменится
     $files = [];
 
-    foreach(scandir($dirPath) as $file) {
+    foreach (scandir($dirPath) as $file) {
         if (is_dir($file)) {
             continue;
         }
@@ -32,6 +32,7 @@ function getTransactions(string $fileName, ?callable $transactionHandler = null)
     $transactions = [];
 
     while (($transaction = fgetcsv($file)) !== false) {
+
         if ($transactionHandler !== null) {
             $transaction = $transactionHandler($transaction);
         }
@@ -65,7 +66,7 @@ function calculateTotals(array $transactions): array
     foreach ($transactions as $transaction) {
         $totals['netTotal'] += $transaction['amount'];
 
-        if ($transaction['amount'] > 0) {
+        if ($transaction['amount'] >= 0) {
             $totals['totalIncome'] += $transaction['amount'];
         } else {
             $totals['totalExpense'] += $transaction['amount'];
