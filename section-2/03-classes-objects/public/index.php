@@ -8,6 +8,7 @@ $transaction = new Transaction(100, 'Transaction 1');
 
 echo '<pre>';
 print_r($transaction);
+var_dump($transaction->getDescription());
 
 $transaction->addTax(8);
 $transaction->applyDiscount(10);
@@ -41,7 +42,6 @@ $obj = new \stdClass();     // Создание объекта, использу
 $obj->a = 10;               // Все свойства в stdClass являются public
 $obj->b = 20;
 print_r($obj);
-
 
 $arr = ['a', 'b', 'c'];
 $obj = (object)$arr;        // Приведение массива к типу object

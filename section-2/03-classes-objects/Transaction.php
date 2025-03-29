@@ -32,4 +32,9 @@ class Transaction
     {
         return $this->amount;
     }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
 }
