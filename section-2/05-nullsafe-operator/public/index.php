@@ -24,4 +24,4 @@ var_dump($transaction->getCustomer()?->getPaymentProfile()?->id);
 //}
 //var_dump($profileId);
 
-// Польше информации тут https://wiki.php.net/rfc/nullsafe_operator
+// Больше информации тут https://wiki.php.net/rfc/nullsafe_operator
