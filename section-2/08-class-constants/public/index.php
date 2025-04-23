@@ -5,7 +5,7 @@ use app\Transaction;
 use app\Transaction2;
 use app\Transaction3;
 
-require __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 $transaction = new Transaction();
 

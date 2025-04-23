@@ -20,7 +20,7 @@
 
 // Пакеты для проектов можно найти на https://packagist.org/ или в документации используемой библиотеки
 
-require __DIR__ . '/../vendor/autoload.php';    // Подключаем файл автозагрузки Composer
+require_once __DIR__ . '/../vendor/autoload.php';    // Подключаем файл автозагрузки Composer
 
 $id = new \Ramsey\Uuid\UuidFactory();           // Теперь можно использовать классы из загруженных пакетов
 echo $id->uuid4();
