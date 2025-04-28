@@ -1,6 +1,5 @@
 <?php
 
-use App\PaymentGateway\Paddle\Transaction;
 use App\Toaster;
 use App\ToasterPro;
 use App\FancyOven;
