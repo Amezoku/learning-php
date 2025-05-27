@@ -2,7 +2,7 @@
 
 namespace app;
 
-// final class Toaster      // Добавление final перед именем класса не позволит наследовать иго
+// final class Toaster      // Добавление final перед именем класса не позволит наследовать его
 class Toaster               // Добавление final перед именем метода позволит его наследовать, но не переопределять
 {
     protected array $slices;
