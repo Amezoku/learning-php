@@ -12,46 +12,56 @@ class HomeController
 {
     public function index(): View
     {
-//        phpinfo();  // Тут можно проверить, включен ли PDO и какие драйверы БД доступны (строка PDO drivers)
-//                    // Подключается через Dockerfile командой RUN docker-php-ext-install pdo pdo_mysql
+        try {
+            $db = new PDO(
+                'mysql:host=' . $_ENV['DB_HOST'] . ';dbname=' . $_ENV['DB_DATABASE'],
+                $_ENV['DB_USER'],
+                $_ENV['DB_PASS']
+            );
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage(), (int)$e->getCode());
+        }
+
+        $email = 'jo2fqn@doe.com';
+        $name = 'John Doe';
+        $amount = 25;
 
         try {
-            $db = new PDO('mysql:host=db;dbname=my_db', 'root', 'root', [
-            ]);
+            $db->beginTransaction();
 
-//            $email = $_GET['email'];
-//            $query = 'SELECT * FROM users WHERE email = "' . $email . '"';
-            // Этот запрос уязвим для SQL-инъекции http://localhost:8000/?email=foo@bar.com%22+OR+1=1--+
-
-            $email = 'jan@doe.com';
-            $name = 'Jane Doe';
-            $isActive = 1;
-            $createdAt = date('Y-m-d H:m:i', strtotime('07/11/2024 9:00PM'));
-
-            $query = 'INSERT INTO users (email, full_name, is_active, created_at)
-                      VALUES (:email, :name, :active, :date)';
-            $stmt = $db->prepare($query);
-
-            $stmt->execute(
-                [
-                    'email'     => $email,
-                    'name'      => $name,
-                    'active'    => $isActive,
-                    'date'      => $createdAt
-                ]
+            $newUserStmt = $db->prepare(
+                'INSERT INTO users (email, full_name, is_active, created_at)
+                VALUES (?, ?, 1, NOW())'
             );
 
-            $id = $db->lastInsertId();
+            $newInvoiceStmt = $db->prepare(
+                'INSERT INTO invoices (amount, user_id)
+                VALUES (?, ?)'
+            );
 
-            $user = $db->query('SELECT * FROM users WHERE id = ' . $id)->fetch();
+            $newUserStmt->execute([$email, $name]);
 
-            echo '<pre>';
-            var_dump($user);
-            echo '</pre>';
+            $userId = (int)$db->lastInsertId();
 
-        } catch (\PDOException $e) {
-            throw new \PDOException($e->getMessage(), (int) $e->getCode());
+            $newInvoiceStmt->execute([$amount, $userId]);
+
+            $db->commit();
+        } catch (\Throwable $e) {
+            if ($db->inTransaction()) {
+                $db->rollBack();
+            }
+
+            throw $e;
         }
+
+        $fetchStmt = $db->prepare(
+            'SELECT invoices.id AS invoice_id, amount, user_id, full_name
+            FROM invoices
+            INNER JOIN users ON user_id = users.id
+            WHERE email = ?'
+        );
+
+        $fetchStmt->execute([$email]);
 
         return View::make('index');
     }

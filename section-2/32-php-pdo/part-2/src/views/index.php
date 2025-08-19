@@ -5,7 +5,7 @@
         <title>Title</title>
     </head>
     <body>
-        <h1><?= $foo ?></h1>
+        <h1>Home Page</h1>
 
         <form action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="receipt" />

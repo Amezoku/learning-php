@@ -4,13 +4,12 @@ use App\View;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Библиотека для работы с .env - https://github.com/vlucas/phpdotenv
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
+
 session_start();
-
-//echo phpinfo();
-
-//echo '<pre>';
-//print_r($_SERVER);
-//echo '</pre>';
 
 define('STORAGE_PATH', __DIR__ . '/../storage');
 define('VIEW_PATH', __DIR__ . '/../views');
